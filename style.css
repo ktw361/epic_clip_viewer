@@ -4,5 +4,5 @@ main {
 }
 
 .container {
-    display: inherit;
+    grid-column: 2;
 }
