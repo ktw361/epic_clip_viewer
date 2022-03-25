@@ -5,6 +5,7 @@ const test_src = '/epic_root/P11/P11_105/frame_0000000001.jpg';
 const HEIGHT = 256; 
 const WIDTH = 456;
 
+// convert int to 'frame_xxxx'
 function pad(num, size) {
     num = num.toString();
     while (num.length < size) num = "0" + num;
@@ -46,11 +47,45 @@ function main1() {
     gif.render();
 }
 
+function createElementText(tag, text, func=e=>e) {
+    let elem = document.createElement(tag);
+    elem.textContent = text;
+    return func(elem);
+}
+function createElementWith(tag, xs, func=e=>e) {
+    let elem = document.createElement(tag);
+    for (const x of xs) {
+        elem.appendChild(x);
+    }
+    return func(elem);
+}
+
 function main() {
-    // Papa.parse()
-    fetch('EPIC_100_train.json')
+    const annot_body = document.getElementById('annot_body');
+
+    // Create this json using `annot_df.to_json(..., orient='records')
+    fetch('annot_df.json')
         .then(resp => resp.json())
         .then(df => {
-            console.log(df);
+            df.map( e => {
+                const entry = createElementWith('tr', [
+                    createElementText('td', e.narration_id),
+                    createElementText('td', e.participant_id),
+                    createElementText('td', e.video_id),
+                    createElementText('td', e.narration_timestamp),
+                    createElementText('td', e.stop_timestamp),
+                    createElementText('td', e.start_frame),
+                    createElementText('td', e.stop_frame),
+                    createElementText('td', e.narration),
+                    createElementText('td', e.verb),
+                    createElementText('td', e.verb_class),
+                    createElementText('td', e.noun),
+                    createElementText('td', e.noun_class),
+                    createElementText('td', e.all_nouns),
+                    createElementText('td', e.all_noun_classes),
+                ])
+                annot_body.append(entry);
+            })
         })
+        .catch(e => console.log(e));
 }

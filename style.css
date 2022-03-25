@@ -1,8 +1,46 @@
+body {
+    margin-left: 2em;
+    margin-right: 2em;
+}
 main {
+    background-color: gray;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template:
+    "nav table" min-content
+    "nav container" 1fr
+    / min-content 1fr
+}
+
+nav {
+    grid-area: nav;
+    padding-left: 0em;
+    margin-left: 0em;
+    border: 3px dotted red;
+    overflow: auto;
+    resize: horizontal;
+    width: 8em;
+    min-width: min-content;
+    max-width: 18em;
+}
+
+.annotTable {
+    grid-area: table;
+    border: 3px dotted blue;
+    overflow: auto;
+    resize: vertical;
+    min-height: min-content;
+    max-height: 24em;
 }
 
 .container {
-    grid-column: 2;
+    grid-area: container;
+    border: 3px dotted green;
 }
+
+/* Make a scrollable table */
+.annotTable          { overflow: auto; height: 24em; }
+.annotTable thead th { position: sticky; top: 0; z-index: 1; }
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
