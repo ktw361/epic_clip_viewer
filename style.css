@@ -44,7 +44,7 @@ nav {
 } */
 
 /* Make a scrollable table */
-#annotTable          { overflow: auto; height: 24em; }
+#annotTable          { overflow: auto; height: 12em; /*24em;*/ }
 #annotTable thead th { position: sticky; top: 0; z-index: 1; }
 /* Just common table stuff. Really. */
 table  { border-collapse: collapse; width: 100%; }

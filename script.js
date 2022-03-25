@@ -8,6 +8,12 @@ const WIDTH = 456;
 const emap = new Map(); // map from ind to entry element
 let prev_hl_ind = null;  // hightlight index
 
+let gif = new GIF({
+    worker: 4,
+    quality: 30, // Higher is better
+});
+
+
 // convert int to 'frame_xxxx'
 function pad(num, size) {
     num = num.toString();
@@ -16,38 +22,17 @@ function pad(num, size) {
 }
 
 // Returns a glob object before .on()
-function generate_gif(pid, vid, st, ed, step) {
-    let gif = new GIF({
-        worker: 4,
-        quality: 10
-    });
-
-    let filename;
-    let frame_name;
+function set_gif(pid, vid, st, ed, step) {
+    gif.frames.length = 0;
     for (let i = st; i <= ed; i += step ) {
-        pid = 'P11';
-        vid = 'P11_105';
-        frame_name = 'frame_' + pad(i.toString(), 10) + '.jpg';
-        filename = [epic_root, pid, vid, frame_name].join('/');
-        let img = document.createElement("img");
+        const frame_name = 'frame_' + pad(i.toString(), 10) + '.jpg';
+        const filename = [epic_root, pid, vid, frame_name].join('/');
+        const img = document.createElement("img");
         img.width = WIDTH;
         img.height = HEIGHT;
         img.src = filename;
-        gif.addFrame(img);
+        gif.addFrame(img, {delay: 200});
     }
-    return gif;
-}
-
-function main1() {
-    let gif = generate_gif('P11', 'P11_105', 300, 520, 20)
-    const container = document.getElementById("container");
-    gif.on('finished', function (blob) {
-        const display = document.createElement('img');
-        display.src = URL.createObjectURL(blob);
-        container.appendChild(display);
-        // window.open(URL.createObjectURL(blob));
-    });
-    gif.render();
 }
 
 function createElementText(tag, text, func=e=>e) {
@@ -88,6 +73,7 @@ function change_highlight(hl_ind) {
         prev_hl_ind = hl_ind;
         return;
     }
+    render_gif(hl_ind);
     if (hl_ind == prev_hl_ind) {
         emap.get(hl_ind).style.backgroundColor = "gray";
         prev_hl_ind = null;
@@ -98,6 +84,19 @@ function change_highlight(hl_ind) {
         prev_hl_ind = hl_ind;
         return;
     }
+}
+
+function render_gif(ind) {
+    const entry = emap.get(ind).entry;
+    gif.abort();
+    set_gif(
+        entry.participant_id, entry.video_id,
+        entry.start_frame, entry.stop_frame, 1);
+    const img = document.getElementById('img');
+    gif.on('finished', function (blob) {
+        img.src = URL.createObjectURL(blob);
+    });
+    gif.render();
 }
 
 function load_main() {
@@ -123,8 +122,9 @@ function load_main() {
                     createElementText('td', e.noun_class),
                     createElementText('td', e.all_nouns),
                     createElementText('td', e.all_noun_classes),
-                ], e => {
-                    e.ind = ind;
+                ], elem => {
+                    elem.entry = e;
+                    elem.ind = ind;
                     // e.addEventListener("mouseenter", () => {
                     //     if (!e.selected)
                     //         e.style.backgroundColor = "cyan";
@@ -133,10 +133,10 @@ function load_main() {
                     //     if (!e.selected)
                     //         e.style.backgroundColor = "gray";
                     // })
-                    e.addEventListener("click", () => {
+                    elem.addEventListener("click", () => {
                         change_highlight(ind);
                     })
-                    return e;
+                    return elem;
                 });
                 annot_body.append(entry);
                 emap.set(ind, entry);
@@ -146,4 +146,17 @@ function load_main() {
         .catch(e => console.log(e));
 
     document.addEventListener('keypress', process_key);
+
+    /**
+     * Add Gif
+     */
+    // let gif = generate_gif('P11', 'P11_105', 300, 520, 20)
+    // const container = document.getElementById("container");
+    // gif.on('finished', function (blob) {
+    //     const display = document.createElement('img');
+    //     display.src = URL.createObjectURL(blob);
+    //     container.appendChild(display);
+    //     // window.open(URL.createObjectURL(blob));
+    // });
+    // gif.render();
 }
