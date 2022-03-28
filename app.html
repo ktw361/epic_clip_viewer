@@ -7,7 +7,8 @@
 
         <script src="gif.js"></script>
 
-        <script type="module" src="script.js"></script>
+        <!-- <script type="module" src="script.js"></script> -->
+        <script src="script.js"></script>
     </head>
 
     <header>
@@ -21,10 +22,18 @@
       <main id="dataPane">
         <nav id="nav_bar">
           <ul>
-            <li>Nav Item</li>
+            <li>
+              <input type="checkbox" name="show_gif", id="show_gif", onclick="show_gif_check(this);" checked>
+              <label for="show_gif">Show GIF</label>
+            </li>
+            <li>
+              <input type="checkbox" name="show_frames", id="show_frames", onclick="show_frames_check(this);" checked>
+              <label for="show_frames">Show Frames</label>
+            </li>
+
           </ul>
         </nav>
-        <div id="annotTable">
+        <section id="annotTable">
           <table tabindex="0">
             <thead>
               <!-- <tr><th>TH 1</th><th>TH 2</th></tr> -->
@@ -56,12 +65,21 @@
             <tbody id="annot_body">
             </tbody>
           </table>
-        </div>
+        </section>
       
-        <div id="container">
-          <!-- <img id='img' src='/epic_root/P11/P11_105/frame_0000000001.jpg'> -->
-          <img id='img'>
-        </div>
+        <section id="container">
+          <section id="gifContainer">
+            <h3 > Gif </h3>
+            <img id='main_gif' src='/epic_root/P11/P11_105/frame_0000000001.jpg'>
+          </section>
+
+          <section id="frameContainer">
+            <h3> Frames </h3>
+            <table id="frameTable">
+            </table>
+            <!-- <img id='img' src='/epic_root/P11/P11_105/frame_0000000001.jpg'> -->
+          </section>
+        </section>
       
       </main>
 
