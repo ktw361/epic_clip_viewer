@@ -16,13 +16,6 @@ let gif = new GIF({
     quality: 100, // Higher is faster
 });
 
-// convert int to 'frame_xxxx'
-function pad(num, size) {
-    num = num.toString();
-    while (num.length < size) num = "0" + num;
-    return num;
-}
-
 // Returns a glob object before .on()
 function set_gif(pid, vid, st, ed, step) {
     gif.frames.splice(0, gif.frames.length); // length = 0;
@@ -66,22 +59,8 @@ function render_frames(ind, table_id, num_cols=5) {
                 img])
         )
         img.width = FRAME_WIDTH;
-        // img.height = HEIGHT;
     }
     table.appendChild(tr)
-}
-
-function createElementText(tag, text, func=e=>e) {
-    let elem = document.createElement(tag);
-    elem.textContent = text;
-    return func(elem);
-}
-function createElementWith(tag, xs, func=e=>e) {
-    let elem = document.createElement(tag);
-    for (const x of xs) {
-        elem.appendChild(x);
-    }
-    return func(elem);
 }
 
 function show_gif_check(elem) {
