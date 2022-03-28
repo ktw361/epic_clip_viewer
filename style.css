@@ -13,8 +13,7 @@ main {
 
 nav {
     grid-area: nav;
-    padding-left: 0em;
-    margin-left: 0em;
+    padding-left: 0.5em;
     border: 1px solid black;
     overflow: auto;
     resize: horizontal;
@@ -48,6 +47,9 @@ nav {
 }
 #frameContainer {
     grid-row: span 1;
+
+    /* overflow: scroll;
+    max-height: 48em; */
 }
 
 img {
@@ -68,6 +70,10 @@ table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 12px; }
 th     { background:#eee; }
 
+#frameTable {
+    grid-row: 1/1;
+}
+
 #frameTable td { 
     border: 1px solid black; 
     margin: 0 auto;
@@ -81,12 +87,16 @@ th     { background:#eee; }
 #frameTable td p { 
     margin: inherit;
     padding: inherit;
- }
+}
 #frameTable td img { 
     margin: 0 auto;
- }
+}
 
  ul {
-     list-style-type: none;
-     padding-left: 0.5em;
+    list-style-type: none;
+    padding-left: 0.5em;
+ }
+
+ input[type=range] {
+    width: 8em;
  }

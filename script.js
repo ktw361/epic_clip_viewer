@@ -9,6 +9,7 @@ const FRAME_WIDTH = 256;
 const emap = new Map(); // map from ind to entry element
 let prev_hl_ind = 0;  // hightlight index
 const frames_arr = new Array();
+let gif_step = 1;
 
 
 let gif = new GIF({
@@ -36,12 +37,11 @@ function render_frames(ind, table_id, num_cols=5) {
     const pid = entry.participant_id,
         vid = entry.video_id,
         st = entry.start_frame,
-        ed = entry.stop_frame,
-        step = 1;
+        ed = entry.stop_frame;
     const table = document.getElementById(table_id);
     table.textContent = "";
     let tr = null;
-    for (let i = st; i <= ed; i += step ) {
+    for (let i = st; i <= ed; i ++ ) {
         const frame_name = 'frame_' + pad(i.toString(), 10) + '.jpg';
         const filename = [epic_root, pid, vid, frame_name].join('/');
         const img = document.createElement("img");
@@ -81,6 +81,20 @@ function show_frames_check(elem) {
     }
 }
 
+function change_gif_step(step) {
+    const StepMapping = {
+        0: 1,
+        25: 2,
+        50: 5,
+        75: 10,
+        100: 20,
+    };
+    step = StepMapping[step];
+    document.getElementById("gif_interval").textContent = `${step}`;
+    gif_step = step;
+    render_gif(prev_hl_ind);
+}
+
 function process_key(e) {
     const key = e.key;
     if (key == 40 || key == 'j') {   // hl DOWN
@@ -112,14 +126,12 @@ function render_gif(ind) {
     if (!document.getElementById("show_gif").checked) return;
     const entry = emap.get(ind).entry;
     gif.abort();
+    const main_gif = document.getElementById('main_gif');
+    main_gif.height = HEIGHT;
+    main_gif.src = "assets/Loading.jpg";
     set_gif(
         entry.participant_id, entry.video_id,
-        entry.start_frame, entry.stop_frame, 1);
-    const main_gif = document.getElementById('main_gif');
-    // gif.on('finished', function (blob) {
-    //     main_gif.src = URL.createObjectURL(blob);
-    //     console.log(`gif created: ${main_gif.src}`)
-    // });
+        entry.start_frame, entry.stop_frame, gif_step);
     gif.render();
 }
 

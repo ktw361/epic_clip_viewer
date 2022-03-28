@@ -33,7 +33,23 @@
             </li>
 
           </ul>
+
+          <label for="gif_step">Gif interval: </label> <label id="gif_interval">1</label>
+          <input type="range" id="gif_step"
+          min="0" max="100" step="25" value="0"
+          list="steplist" onchange="change_gif_step(this.value);">
+          <datalist id="steplist">
+            <option>0</option>
+            <option>25</option>
+            <option>50</option>
+            <option>75</option>
+            <option>100</option>
+          </datalist>
+
+          <!-- <input type="range" min="1" max="20" value="50" class="slider" id="gif_step"> -->
+
         </nav>
+
         <section id="annotTable">
           <table tabindex="0">
             <thead>
@@ -71,7 +87,7 @@
         <section id="container">
           <section id="gifContainer">
             <h3 > Gif </h3>
-            <img id='main_gif' src='/epic_root/P11/P11_105/frame_0000000001.jpg'>
+            <img id='main_gif' height=256 src='assets/Loading.jpg'>
           </section>
 
           <section id="frameContainer">
