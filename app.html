@@ -50,14 +50,23 @@
 
         </nav>
 
-        <section id="annotTable">
+        <section id="annotContainer">
+
+          <section id="filters">
+            <label for="noun_filter"><b>Noun filter:</b></label>
+            <input type="text" id="noun_filter" 
+            onkeyup="search_noun()" placeholder="Search for nouns.." title="Type in a name">
+          </section>
+
+          <section id="annotTable">
           <table tabindex="0">
             <thead>
-              <!-- <tr><th>TH 1</th><th>TH 2</th></tr> -->
               <tr>
                 <th>narration_id</th>
-                <!--th>participand_id</th--><th>pid</th>
-                <!--th>video_id</th--><th>vid</th>
+                <!--th>participand_id</th-->
+                <th>pid</th>
+                <!--th>video_id</th-->
+                <th>vid</th>
                 <th>narration
                   _timestamp</th>
                 <th>stop
@@ -82,6 +91,7 @@
             <tbody id="annot_body">
             </tbody>
           </table>
+          </section>
         </section>
       
         <section id="container">

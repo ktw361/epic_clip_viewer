@@ -81,6 +81,29 @@ function show_frames_check(elem) {
     }
 }
 
+function search_noun() {
+    const NOUN_COL_IND = 10;
+    const input = document.getElementById("noun_filter");
+    const word = input.value.toUpperCase();
+    const table = document.getElementById("annotTable");
+    tr = table.getElementsByTagName("tr");
+    for (let i = 1; i < tr.length; i++) {
+        const tds = tr[i].getElementsByTagName("td");
+        let flag = true;
+        const td = tds[NOUN_COL_IND];
+        if (td.innerHTML.toUpperCase().indexOf(word)> -1) {
+            flag = false;
+        }
+        if (flag) {
+            tr[i].hidden = true;
+        } else {
+            tr[i].hidden = false;
+        }
+    }
+
+
+}
+
 function change_gif_step(step) {
     const StepMapping = {
         0: 1,
@@ -101,11 +124,6 @@ function process_key(e) {
         if (prev_hl_ind != null && prev_hl_ind < emap.size-1) {
             emap.get(prev_hl_ind+1).scrollTo(1000, 100);
             highlight_and_display(prev_hl_ind+1);
-            // const tab = document.getElementById('annotTable');
-            // tab.scrollTop = tab.scrollTop + e.height;
-            // tab.addEventListener("scroll", e => {
-            //     console.log(tab.scrollTop);
-            // });
         }
     } else if (key == 38 || key == 'k') { // hl UP
         if (prev_hl_ind != null && prev_hl_ind > 0) {

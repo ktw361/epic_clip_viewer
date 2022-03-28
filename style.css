@@ -6,8 +6,8 @@ main {
     background-color: gray;
     display: grid;
     grid-template:
-    "nav table" min-content
-    "nav container" 1fr
+    "nav meta" min-content
+    "nav display" 1fr
     / min-content 1fr
 }
 
@@ -22,17 +22,8 @@ nav {
     max-width: 18em;
 }
 
-#annotTable {
-    grid-area: table;
-    border: 1px solid black;
-    overflow: auto;
-    resize: vertical;
-    min-height: min-content;
-    max-height: 24em;
-}
-
 #container {
-    grid-area: container;
+    grid-area: display;
     /* border: 3px dotted green; */
     margin: 0em;
     padding-left: 0.5em;
@@ -47,7 +38,6 @@ nav {
 }
 #frameContainer {
     grid-row: span 1;
-
     /* overflow: scroll;
     max-height: 48em; */
 }
@@ -62,8 +52,22 @@ img {
     margin: 0.5em;
 }
 
+#annotContainer {
+    grid-area: meta;
+}
+#filters {
+    padding: 0.25em;
+}
+
 /* Make a scrollable table */
-#annotTable          { overflow: auto; height: 24em; /*24em;*/ }
+#annotTable          { 
+    overflow: auto; 
+    height: 24em; /*24em;*/ 
+    border: 1px solid black;
+    resize: vertical;
+    min-height: min-content;
+    max-height: 24em;
+}
 #annotTable thead th { position: sticky; top: 0; z-index: 1; }
 /* Just common table stuff. Really. */
 table  { border-collapse: collapse; width: 100%; }
