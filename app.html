@@ -53,7 +53,15 @@
         <section id="annotContainer">
 
           <section id="filters">
-            <label for="noun_filter"><b>Noun filter:</b></label>
+            <label class="filter_label" for="vid_filter">VID filter:</label>
+            <input type="text" id="vid_filter" 
+            onkeyup="search_vid()" placeholder="Search for vid.." title="Type in a vid">
+
+            <label for="frame_filter">Frame filter:</label>
+            <input type="text" id="frame_filter" 
+            onkeyup="search_frame()" placeholder="Search for frame.." title="Type in a number">
+
+            <label for="noun_filter">Noun filter:</label>
             <input type="text" id="noun_filter" 
             onkeyup="search_noun()" placeholder="Search for nouns.." title="Type in a name">
           </section>

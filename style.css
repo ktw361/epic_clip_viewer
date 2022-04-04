@@ -56,7 +56,13 @@ img {
     grid-area: meta;
 }
 #filters {
-    padding: 0.25em;
+    padding: 0.35em;
+    display: grid;
+    grid-template-columns: 6em 12em;
+    grid-gap: 0.25em;
+}
+input[text] {
+    width: 4em;
 }
 
 /* Make a scrollable table */

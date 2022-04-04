@@ -82,27 +82,76 @@ function show_frames_check(elem) {
     }
 }
 
-function search_noun() {
-    const NOUN_COL_IND = 10;
-    const input = document.getElementById("noun_filter");
-    const word = input.value.toUpperCase();
+function search_vid() {
+    const VID_COL_IND = 2;
+    const input = document.getElementById("vid_filter");
+    const query = input.value;
     const table = document.getElementById("annotTable");
     tr = table.getElementsByTagName("tr");
     for (let i = 1; i < tr.length; i++) {
         const tds = tr[i].getElementsByTagName("td");
-        let flag = true;
-        const td = tds[NOUN_COL_IND];
-        if (td.innerHTML.toUpperCase().indexOf(word)> -1) {
-            flag = false;
+        const td = tds[VID_COL_IND];
+        let hide = true;
+        if (query.length == 0) {
+            hide = false;
+        } else if (td.innerHTML == query) {
+            hide = false;
         }
-        if (flag) {
-            tr[i].hidden = true;
+        if (hide) {
+            tr[i].hidden_cnt |= 0x1;
         } else {
-            tr[i].hidden = false;
+            tr[i].hidden_cnt &= ~0x1;
         }
+        tr[i].hidden = tr[i].hidden_cnt > 0;
     }
+}
 
+function search_frame() {
+    const ST_COL_IND = 5, ED_COL_IND = 6;
+    const input = document.getElementById("frame_filter");
+    const frame = parseInt(input.value);
+    const table = document.getElementById("annotTable");
+    tr = table.getElementsByTagName("tr");
+    for (let i = 1; i < tr.length; i++) {
+        const tds = tr[i].getElementsByTagName("td");
+        const st_td = tds[ST_COL_IND];
+        const ed_td = tds[ED_COL_IND];
+        let hide = true;
+        if (isNaN(frame)) {
+            hide = false;
+        } else if ((parseInt(st_td.innerHTML) < frame) && (frame < parseInt(ed_td.innerHTML))) {
+            hide = false;
+        }
+        if (hide) {
+            tr[i].hidden_cnt |= 0x2;
+        } else {
+            tr[i].hidden_cnt &= ~0x2;
+        }
+        tr[i].hidden = tr[i].hidden_cnt > 0;
+    }
+}
 
+function search_noun() {
+    const NOUN_COL_IND = 10;
+    const input = document.getElementById("noun_filter");
+    const word = input.value; // .toUpperCase();
+    let query = null;
+    if (word.endsWith(' ')) {
+        query = word.slice(0, -1);
+    }
+    const table = document.getElementById("annotTable");
+    tr = table.getElementsByTagName("tr");
+    for (let i = 1; i < tr.length; i++) {
+        const tds = tr[i].getElementsByTagName("td");
+        const td = tds[NOUN_COL_IND];
+        let flag = (query != null) ? (td.innerHTML != query) : (td.innerHTML.indexOf(word) < 0);
+        if (flag) {
+            tr[i].hidden_cnt |= 0x4;
+        } else {
+            tr[i].hidden_cnt &= ~0x4;
+        }
+        tr[i].hidden = tr[i].hidden_cnt > 0;
+    }
 }
 
 function change_gif_step(step) {
@@ -158,7 +207,7 @@ function load_main() {
 
     gif.on('finished', function (blob) {
         main_gif.src = URL.createObjectURL(blob);
-        console.log(`gif created: ${main_gif.src}`)
+        // console.log(`gif created: ${main_gif.src}`)
     });
 
     // Create this json using `annot_df.to_json(..., orient='records')
@@ -184,6 +233,7 @@ function load_main() {
                 ], elem => {
                     elem.entry = e;
                     elem.ind = ind;
+                    elem.hidden_cnt = 0x0;
                     // e.addEventListener("mouseenter", () => {
                     //     if (!e.selected)
                     //         e.style.backgroundColor = "cyan";
