@@ -1,8 +1,9 @@
 window.onload = load_main;
 
+// const data_file = 'data/filtered_300.json';
+const data_file = 'data/EPIC100_8k.json';
 const epic_root = '/epic_root';
-const test_src = '/epic_root/P11/P11_105/frame_0000000001.jpg';
-const HEIGHT = 256; 
+const HEIGHT = 256;
 const WIDTH = 456;
 const FRAME_WIDTH = 256;
 
@@ -51,7 +52,7 @@ function render_frames(ind, table_id, num_cols=5) {
         if (tab_ind % num_cols == 0) {
             if (tab_ind > 0) table.appendChild(tr);
             tr = createElementWith('tr', []);
-        }        
+        }
         tr.appendChild(
             createElementWith('td', [
                 createElementText('label', `${i.toString()}`),
@@ -161,7 +162,7 @@ function load_main() {
     });
 
     // Create this json using `annot_df.to_json(..., orient='records')
-    fetch('annot_df.json')
+    fetch(data_file)
         .then(resp => resp.json())
         .then(df => {
             df.map( (e, ind) => {
