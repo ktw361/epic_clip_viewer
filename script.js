@@ -1,7 +1,7 @@
 window.onload = load_main;
 
-// const data_file = 'data/filtered_300.json';
-const data_file = 'data/EPIC100_8k.json';
+const data_file = 'data/filtered_300.json';
+// const data_file = 'data/EPIC100_8k.json';
 const epic_root = '/epic_root';
 const HEIGHT = 256;
 const WIDTH = 456;
@@ -119,7 +119,7 @@ function search_frame() {
         let hide = true;
         if (isNaN(frame)) {
             hide = false;
-        } else if ((parseInt(st_td.innerHTML) < frame) && (frame < parseInt(ed_td.innerHTML))) {
+        } else if ((parseInt(st_td.innerHTML) <= frame) && (frame <= parseInt(ed_td.innerHTML))) {
             hide = false;
         }
         if (hide) {
